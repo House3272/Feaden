@@ -25,7 +25,7 @@ buttons[0].focus();
 
 const bradBon = document.querySelector('#bradBon');
 bradBon.addEventListener('click',function(){
-
+	new Audio('bawn.mp3').play();
 });
 
 
@@ -81,9 +81,7 @@ window.requestAnimationFrame = (function(){
 		window.mozRequestAnimationFrame    ||
 		window.oRequestAnimationFrame      ||
 		window.msRequestAnimationFrame     ||
-		function(callback){
-			window.setTimeout(callback, 1000 / 60);
-		};
+		function(cb){window.setTimeout(cb,1000/60);};
 })();
 
 
@@ -104,8 +102,8 @@ var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 
 var analyser = audioCtx.createAnalyser();
-analyser.fftSize = 1024;
-var freqBins = analyser.frequencyBinCount;
+analyser.fftSize = 2048;
+var freqBins = analyser.frequencyBinCount-360;
 //analyser.smoothingTimeConstant = 0.9;
 var freqDataArray = new Uint8Array(freqBins);
 
@@ -117,12 +115,12 @@ function draw() {
 	analyser.getByteFrequencyData(freqDataArray);
 	canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 	for (var i = 0; i<freqBins; i++) {
-		var hue = i/freqBins * 210 + 99;
+		var hue = i/freqBins * 192 + 128;
 		canvasCtx.fillStyle = 'hsl(' + hue + ', 100%, 50%)';
 
-		var value = freqDataArray[i]+1;//Math.random()*256;
-		var barFillAmount = HEIGHT * value/250;
-		canvasCtx.fillRect(i * barWidth, 0, barWidth, barFillAmount);
+		var value = freqDataArray[i];
+		var barFillAmount = HEIGHT * value/260;
+		canvasCtx.fillRect(i * barWidth, 0, barWidth, barFillAmount+2);
 	}
 	requestAnimationFrame(draw);
 };
@@ -131,19 +129,33 @@ function draw() {
 
 
 var song = new Audio('db.mp3');
-song.crossOrigin = "anonymous";
+//song.crossOrigin = "anonymous";
 var source = audioCtx.createMediaElementSource(song);
 source.connect(analyser);
 analyser.connect(audioCtx.destination);
 
 
 draw();
-var playPromise = song.play();
+song.play();
+song.addEventListener('ended',function(){
+	this.currentTime = 0;
+	this.play();
+},false);
 
-if (playPromise) {
-	playPromise.then(function() {
-		console.log('win?');
-	}).catch(function(error) {
-		console.log(error);
-	});
-}
+
+// booChrome(song.play());
+
+
+// song.addEventListener('ended',function(){
+// 	this.currentTime=0;
+// 	booChrome(this.play());
+// },false);
+
+// function booChrome(promise){
+// 	if (playPromise) {
+// 		playPromise.then(function() {
+// 		}).catch(function(error) {
+// 			//console.log(error);
+// 		});
+// 	}
+// }

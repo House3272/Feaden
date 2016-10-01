@@ -8,7 +8,6 @@ for (var i = 0; i<pages.length; i++) {
 	document.querySelector('#navCon').appendChild(buttons[buttons.length-1]);
 }
 document.addEventListener('click',function(e){
-	console.log(e);
 	if(e && e.target && ~buttons.indexOf(e.target)){
 		document.querySelector('.activePage').classList.remove('activePage');
 		document.querySelector('#a'+e.target.textContent).classList.add('activePage');
@@ -31,25 +30,9 @@ bradBon.addEventListener('click',function(){
 
 
 
-// setTimeout(function(){
-// var dearly = new Audio('db.mp3');
-// dearly.addEventListener('ended',function(){
-// this.currentTime = 0;
-// this.play();
-// },false);
-// dearly.play();
-// },3200);
-
-
 
 // var x = document.querySelector('#scrollNav>div');
 // setTimeout(function(){x.style.left='50%'},3000);
-
-
-
-
-
-
 
 
 
@@ -75,52 +58,78 @@ bradBon.addEventListener('click',function(){
 
 
 
+
+
+
+
+
+
+
+//___Canvas + Audio____________________________________________________________________________
+
+const canvas = document.querySelector('#canvas');
+var cWidth,cHeight;
+var canvasCtx = canvas.getContext('2d');
+window.addEventListener("resize",updateCanvasSize);
+function updateCanvasSize(){
+	canvas.width = document.body.getBoundingClientRect().width;
+	canvas.height = document.body.getBoundingClientRect().height;
+	cWidth = canvas.width;
+	cHeight = canvas.height;
+}
+
 window.requestAnimationFrame = (function(){
-	return window.requestAnimationFrame  ||
-		window.webkitRequestAnimationFrame ||
-		window.mozRequestAnimationFrame    ||
-		window.oRequestAnimationFrame      ||
-		window.msRequestAnimationFrame     ||
-		function(cb){window.setTimeout(cb,1000/60);};
+	return 	window.requestAnimationFrame
+		|| 	window.webkitRequestAnimationFrame
+		|| 	window.mozRequestAnimationFrame
+		|| 	window.oRequestAnimationFrame
+		|| 	window.msRequestAnimationFrame
+		|| 	function(cb){window.setTimeout(cb,1000/60);};
 })();
 
 
 
-
-
-const canvas = document.querySelector('#canvas');
-canvas.width = document.body.getBoundingClientRect().width;
-canvas.height = document.body.getBoundingClientRect().height;
-
-var WIDTH = canvas.width;
-var HEIGHT = canvas.height;
-
-
-var canvasCtx = canvas.getContext('2d');
-
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-
 var analyser = audioCtx.createAnalyser();
-analyser.fftSize = 2048;
-var freqBins = analyser.frequencyBinCount-360;
-//analyser.smoothingTimeConstant = 0.9;
-var freqDataArray = new Uint8Array(freqBins);
+analyser.smoothingTimeConstant = 0.9;
 
 
+var freqBins;
+var barWidth;
+var freqDataArray;
+
+updateCanvasSize();
+if( cWidth<481 ){
+	analyser.fftSize = 256;
+	freqBins = analyser.frequencyBinCount-50;
+}else
+if( cWidth<801 ){
+	analyser.fftSize = 512;
+	freqBins = analyser.frequencyBinCount-100;
+}else
+if( cWidth<1290 ){
+	analyser.fftSize = 1024;
+	freqBins = analyser.frequencyBinCount-200;
+}else
+if( 1290<cWidth ){
+	analyser.fftSize = 2048;
+	freqBins = analyser.frequencyBinCount-400;
+}
+barWidth = cWidth/freqBins;
+freqDataArray = new Uint8Array(freqBins);
 analyser.getByteFrequencyData(freqDataArray);
 
-var barWidth = WIDTH/freqBins;
+
 function draw() {
 	analyser.getByteFrequencyData(freqDataArray);
-	canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+	canvasCtx.clearRect(0, 0, cWidth, cHeight);
 	for (var i = 0; i<freqBins; i++) {
 		var hue = i/freqBins * 192 + 128;
 		canvasCtx.fillStyle = 'hsl(' + hue + ', 100%, 50%)';
 
 		var value = freqDataArray[i];
-		var barFillAmount = HEIGHT * value/260;
-		canvasCtx.fillRect(i * barWidth, 0, barWidth, barFillAmount+2);
+		var barFillAmount = cHeight * value/260;
+		canvasCtx.fillRect(i * barWidth, 0, barWidth, barFillAmount);
 	}
 	requestAnimationFrame(draw);
 };
@@ -128,29 +137,34 @@ function draw() {
 
 
 
+
+setTimeout(function(){
+draw();
+},99);
+
+
+
+
 var song = new Audio('db.mp3');
-//song.crossOrigin = "anonymous";
+song.loop = true;
 var source = audioCtx.createMediaElementSource(song);
 source.connect(analyser);
 analyser.connect(audioCtx.destination);
 
+document.addEventListener("click",function(e){
+	var wasRightClick;
+	e = e || window.event;
+	if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+		wasRightClick = e.which == 3; 
+	else if ("button" in e)  // IE, Opera 
+		wasRightClick = e.button == 2;
 
-draw();
-song.play();
-song.addEventListener('ended',function(){
-	this.currentTime = 0;
-	this.play();
-},false);
+	if( !~['IMG','BUTTON',"A"].indexOf(e.target.nodeName) && !wasRightClick)
+		song.paused? song.play() : song.pause();
+});
 
 
 // booChrome(song.play());
-
-
-// song.addEventListener('ended',function(){
-// 	this.currentTime=0;
-// 	booChrome(this.play());
-// },false);
-
 // function booChrome(promise){
 // 	if (playPromise) {
 // 		playPromise.then(function() {
@@ -159,3 +173,7 @@ song.addEventListener('ended',function(){
 // 		});
 // 	}
 // }
+// song.addEventListener('ended',function(){
+// 	this.currentTime=0;
+// 	booChrome(this.play());
+// },false);

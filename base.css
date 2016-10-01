@@ -1,8 +1,8 @@
-html,body,div,section,button,input,p,img,h1,h2,h3,h4,h5,h6,hr,dl{
-	margin:0;
+html,body,div,section,button,input,p,br,img,a,h1,h2,h3,h4,h5,h6,hr,dl{
 	padding:0;
-	outline:0;
+	margin:0;
 	border:none;
+	outline:0 !important;
 	box-sizing:border-box !important;
 	font-family: inherit;
 	font-size:inherit;
@@ -15,22 +15,24 @@ html,body,div,section,button,input{
 	justify-content:center;
 	align-content:center;
 	align-items:center;
+	flex-shrink: 0;
 	text-align:center;
 	vertical-align:middle;
 	white-space:pre-line;
 }
 a,a:visited{
-	color:rgba(0,152,204,1);
+	color:rgb(30,160,210);
 	text-decoration:none;
 }a:hover,a:active{
-	color:rgba(40,164,220,1);
+	color:rgb(72,172,240);
 	text-decoration:underline;
 }button:hover,button:active, a:hover,a:active{
 	cursor:pointer;
 }
 ::-webkit-scrollbar {
 	width: 1.5vh;
-	box-shadow: inset 0 0 1vh rgba(0,0,0,0.3); 
+	box-shadow: inset 0 0 1vh rgba(0,0,0,0.3);
+	background: rgba(50,230,255,0.1);
 }
 /*::-webkit-scrollbar-button{}::-webkit-scrollbar-track{}::-webkit-scrollbar-track-piece{}*/
 ::-webkit-scrollbar-thumb {
@@ -45,13 +47,189 @@ a,a:visited{
 	background-color: rgba(24,192,230,0.9);
 	box-shadow: inset 0 0 1vh rgba(250,250,250,0.5), inset 0 0 0.1vh 0.2vh rgba(99,220,240,0.8);
 }
+
+
 html, body {
 	height: 100%;
 	width: 100%;
+	font-family: 'Source Sans Pro',Arial,sans-serif;
 	overflow: hidden !important;
 	background: rgb(9,9,9);
-	font-family: 'Source Sans Pro',Arial,sans-serif;
 }
+#umbrella{
+	width: 100%;
+	height: 100%;
+}
+#navCon{
+	z-index: 9;
+	width: 100%;
+	height: 6vh;
+	flex-flow: row nowrap;
+	font-size: 2vh;
+	background: rgba(56,172,255,0.3);
+	background: linear-gradient(to bottom, rgba(56,172,255,0.3) 0%, rgba(56,172,255,0.6) 96%);
+	border-bottom: 0.2vh solid rgba(56,192,255,0.7);
+}
+#navCon>button{
+	width: 4.5vh;
+	height: 4.5vh;
+	margin: 0.4vh 0.6vh;
+	color: #ddd;
+	border-radius: 48%;
+	background: linear-gradient(to bottom, rgba(9,144,220,0.9) 0%, rgba(96,9,220,0.9) 100%);
+	box-shadow: inset 0 0 0 0.2vh rgba(40,40,50,0.7), 0 0.2vh 0.3vh 0 rgba(0,0,0,0.6);
+}#navCon>button:hover,#navCon>button:focus,#navCon>.active{
+	color: rgb(240,215,9);
+	box-shadow: inset 0 0 0 0.1vh rgb(240,215,9), 0 0 0 0.2vh rgb(240,215,9), 0 0 0.1vh 0.3vh rgba(240,215,9,0.4);
+}#navCon>button:active{
+	color: rgb(250,220,36);
+	background: linear-gradient(to bottom, rgba(9,128,192,0.9) 0%, rgba(96,9,210,0.9) 90%);
+	box-shadow: inset 0 0 0 0.1vh rgb(240,215,9), 0 0 0 0.2vh rgb(240,215,9);
+}
+/*#scrollNav{
+	width:100%;
+	height:0.6vh;
+	background:transparent;
+	justify-content:flex-end;
+}
+#scrollNav div{
+	min-width: 9%;
+	height: 0.3vh;
+	border: 0 solid #000;
+	border-radius: 75% 75% 0 0;
+	background: rgb(9,220,220);
+	box-shadow: 0 0 0.1vh 0.2vh rgb(9,235,230);
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	transition: all 0.3s ease;
+}*/
+
+#pageCon{
+	z-index: 8;
+	width: 100%;
+	height: 94vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+	justify-content: flex-start;
+}
+
+#pageCon>*,div[id^="a"]{
+	width: 75%;
+	min-height: 67vh;
+	height: intrinsic;
+	height: -moz-max-content;
+	height: min-content;
+	margin-bottom: 1vh;
+	padding: 1.4vh 0;
+	justify-content: flex-start;
+	display: none;
+	font-size: 1.6vh;
+	background: rgba(0,0,0,0.7);
+	background: linear-gradient(to bottom, rgba(0,24,56,0.5) 4vh, rgba(0,4,9,0.9) 13vh);
+	border: 0.2vh solid rgba(230,255,255, 0.2);
+	border-top-width: 0;
+	border-radius: 0 0 1vh 1vh;
+
+}@media (max-aspect-ratio:8/9) {
+	#pageCon>*{
+		width: 100%;
+		font-size: 2vh;
+	}
+}
+#pageCon .activePage{
+	display: flex;
+}
+div[id^="a"] *{
+	text-shadow: 0 0 0.1em #000;
+}
+
+
+.pageHead,.pageMeat{
+	width: 96%;
+	padding-bottom: 1em;
+}
+.pageHead{
+	margin-bottom: 2vh;
+	border-bottom: 0.2vh solid rgba(250,250,250,0.6);
+	font-size: 210%;
+}
+.pageHead>p:last-child{
+	font-size: 45%;
+	color: #ddd;
+}
+.pageHead a:before{
+	content: 'Assignment ';
+}
+.pageMeat{
+	font-size: 100%;
+	color: rgb(220,232,228);
+	justify-content: space-around;
+}
+.pageMeat>section{
+	min-width: 100%;
+	margin: 1.6em 0;
+	text-align: left;
+	align-items: flex-start;
+}
+.pageMeat .small{
+	font-size: 65%;
+}
+.pageMeat .black{
+	color: rgba(0,0,0,0);
+	text-shadow: none;
+}
+
+
+
+
+
+#a1 section>p:first-child{
+	font-size: 120%;
+	font-weight: bold;
+	color: rgb(233,245,240);
+}
+#a1 section:first-child>p:first-child{
+	margin-bottom: 0.4em;
+}
+dd{
+	margin-left: 1.9em;
+}
+#bradBon:before{
+	content: 'Bonjourno';
+}
+#bradBon:hover:before{
+	content: 'Bawnjorno';
+}
+#a1 .ratioPic{
+	width: 100%;
+	border: 0.24vh solid rgba(255,215,55,0.4);
+	margin-top: 1em;
+}
+
+
+
+/*
+#a2{
+}
+#a3{}
+#a4{}
+#a5{}
+#a6{}
+#a7{}
+#a8{}
+#a9{}
+#a10{}
+#a11{}
+*/
+
+
+
+
+
+
+
+
 /*
 #aCon>*{
 	position: absolute;
@@ -103,153 +281,11 @@ html, body {
 
 
 
-
-#umbrella{
-	width: 100%;
-	height: 100%;
-	z-index: 9;
-}
-#navCon{
-	width: 100%;
-	height: 5vh;
-	flex-flow: row nowrap;
-	color: #ddd;
-	font-size: 2vh;
-	background:rgba(56,172,255,0.3);
-}
-#navCon>button{
-	width: 4.5vh;
-	height: 4.5vh;
-	margin: 0.4vh 0.6vh;
-	background: linear-gradient(to bottom, rgba(9,144,220,0.3) 0%, rgba(96,9,220,0.8) 100%);
-	border: 0 solid rgb(240,215,9);
-	border-radius: 50%;
-	box-shadow: inset 0 0 0 0.2vh rgba(40,40,50,0.7), 0 0.2vh 0.3vh 0 rgba(0,0,0,0.6);
-}
-#navCon>button:hover,#navCon>button:focus,#navCon>.active{
-	color: rgb(240,215,9);
-	border-width: 0.24vh;
-	box-shadow: 0 0 0.4vh 0vh rgb(240,215,9);
-}
-#scrollNav{
-	width:100%;
-	height:0.6vh;
-	background:transparent;
-	justify-content:flex-end;
-}
-#scrollNav div{
-	min-width: 9%;
-	height: 0.3vh;
-	border: 0 solid #000;
-	border-radius: 75% 75% 0 0;
-	background: rgb(9,220,220);
-	box-shadow: 0 0 0.1vh 0.2vh rgb(9,235,230);
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	transition: all 0.3s ease;
-}
-
-#pageCon{
-	width: 100%;
-	height: 94.4vh;
-	flex-grow: 2;
-	color: rgb(242,244,240);
-	overflow-x: hidden;
-	overflow-y: auto;
-	justify-content: flex-start;
-}
-#pageCon>*{
-	width: 100%;
-	min-height: min-content;
-	padding: 1.4vh 0;
-	justify-content: flex-start;
-	display: none;
-}
-#pageCon .activePage{
-	display: flex;
-}
-.pageHead{
-	min-width: 72%;
-	max-width: 100%;
-	flex-shrink: 0;
-	font-size: 3.2vh;
-	border-bottom: 0.2vh solid rgba(128,128,128,0.8);
-	padding-bottom: 1vh;
-	margin-bottom: 2vh;
-}
-.pageHead a:before{
-	content: 'Assignment ';
-}
-.pageHead>p:last-child{
-	font-size: 1.3vh;
-	color: #ddd;
-}
-
-.pageMeat{
-	min-width: 72%;
-	max-width: 100%;
-	height: 100%;
-	flex-shrink: 0;
-	color: rgb(220,232,228);
-	justify-content: space-around;
-}
-.pageMeat>*{
-	min-width: 100%;
-	margin: 0.7em 0;
-	text-align: left;
-	align-items: flex-start;
-}
-.pageMeat>div>p:first-child{
-	font-size: 109%;
-	font-weight: bold;
-	color: rgb(233,245,240);
-}
-.pageMeat .small{
-	font-size: 65%;
-}
-
-
-
-
-#bradBon:before{
-	content: 'Bonjourno';
-}
-#bradBon:hover:before{
-	content: 'Bawnjorno';
-}
-#a1 .ratioPic{
-	width: 100%;
-	padding-top: calc(1080/1920*100%);
-	background: no-repeat center center scroll;
-	background-size: contain;	
-	box-shadow: 0 0 1vh 0 rgb(255,215,55);
-}
-
-
-
-/*
-#a2{
-}
-#a3{}
-#a4{}
-#a5{}
-#a6{}
-#a7{}
-#a8{}
-#a9{}
-#a10{}
-#a11{}
-*/
-
-
-
 #canvas{
-
+	z-index: 2;
 	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100vw;
 	height: 100vh;
-	z-index:1;
 }

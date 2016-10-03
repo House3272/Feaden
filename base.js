@@ -19,22 +19,27 @@ document.addEventListener('click',function(e){
 
 pages[0].classList.add('activePage');
 buttons[0].classList.add('active');
-buttons[0].focus();
 
 
-const bradBon = document.querySelector('#bradBon');
-bradBon.addEventListener('click',function(){
-	new Audio('bawn.mp3').play();
-});
 
+var hash = window.location.hash;
+if( !hash || hash.length<2 || !/^#\d+$/.test(hash) ){
+	history.replaceState("", document.title, window.location.pathname + window.location.search);
+}else{
+	hash = hash.slice(1);
+	if( hash >= buttons.length ){
+		buttons[buttons.length-1].click();
+	}else
+	if( hash < buttons.length && hash > 1 ){
+		buttons[hash].click();
+	}
+}
 
 
 
 
 // var x = document.querySelector('#scrollNav>div');
 // setTimeout(function(){x.style.left='50%'},3000);
-
-
 
 // const aButt = document.querySelector('#aButt');
 // const aMeat = document.querySelector('#aMeat');
@@ -59,6 +64,14 @@ bradBon.addEventListener('click',function(){
 
 
 
+const bradBon = document.querySelector('#bradBon');
+bradBon.addEventListener('click',function(){
+	new Audio('bawn.mp3').play();
+});
+
+
+
+
 
 
 
@@ -66,17 +79,6 @@ bradBon.addEventListener('click',function(){
 
 
 //___Canvas + Audio____________________________________________________________________________
-
-const canvas = document.querySelector('#canvas');
-var cWidth,cHeight;
-var canvasCtx = canvas.getContext('2d');
-window.addEventListener("resize",updateCanvasSize);
-function updateCanvasSize(){
-	canvas.width = document.body.getBoundingClientRect().width;
-	canvas.height = document.body.getBoundingClientRect().height;
-	cWidth = canvas.width;
-	cHeight = canvas.height;
-}
 
 window.requestAnimationFrame = (function(){
 	return 	window.requestAnimationFrame
@@ -89,6 +91,11 @@ window.requestAnimationFrame = (function(){
 
 
 
+const canvas = document.querySelector('#canvas');
+var cWidth,cHeight;
+var canvasCtx = canvas.getContext('2d');
+
+
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var analyser = audioCtx.createAnalyser();
 analyser.smoothingTimeConstant = 0.9;
@@ -98,38 +105,36 @@ var freqBins;
 var barWidth;
 var freqDataArray;
 
-updateCanvasSize();
+canvasResize();
 if( cWidth<481 ){
 	analyser.fftSize = 256;
-	freqBins = analyser.frequencyBinCount-50;
+	freqBins = analyser.frequencyBinCount;//-50;
 }else
 if( cWidth<801 ){
 	analyser.fftSize = 512;
-	freqBins = analyser.frequencyBinCount-100;
+	freqBins = analyser.frequencyBinCount;//-100;
 }else
 if( cWidth<1290 ){
 	analyser.fftSize = 1024;
-	freqBins = analyser.frequencyBinCount-200;
+	freqBins = analyser.frequencyBinCount;//-200;
 }else
 if( 1290<cWidth ){
 	analyser.fftSize = 2048;
-	freqBins = analyser.frequencyBinCount-400;
+	freqBins = analyser.frequencyBinCount;//-400;
 }
-barWidth = cWidth/freqBins;
 freqDataArray = new Uint8Array(freqBins);
 analyser.getByteFrequencyData(freqDataArray);
-
+canvasResize();
 
 function draw() {
 	analyser.getByteFrequencyData(freqDataArray);
 	canvasCtx.clearRect(0, 0, cWidth, cHeight);
-	for (var i = 0; i<freqBins; i++) {
+	for( var i = 0; i<freqBins; i++ ){
 		var hue = i/freqBins * 192 + 128;
 		canvasCtx.fillStyle = 'hsl(' + hue + ', 100%, 50%)';
 
-		var value = freqDataArray[i];
-		var barFillAmount = cHeight * value/260;
-		canvasCtx.fillRect(i * barWidth, 0, barWidth, barFillAmount);
+		var barFillAmount = cHeight * freqDataArray[i] / 260;
+		canvasCtx.fillRect(i * barWidth, 0, barWidth, barFillAmount+5);
 	}
 	requestAnimationFrame(draw);
 };
@@ -137,6 +142,14 @@ function draw() {
 
 
 
+function canvasResize(){
+	canvas.width = document.body.getBoundingClientRect().width;
+	canvas.height = document.body.getBoundingClientRect().height;
+	cWidth = canvas.width;
+	cHeight = canvas.height;
+	barWidth = cWidth/freqBins;
+}
+window.addEventListener("resize",canvasResize);
 
 setTimeout(function(){
 draw();
@@ -145,7 +158,7 @@ draw();
 
 
 
-var song = new Audio('db.mp3');
+var song = new Audio('lala.mp3');
 song.loop = true;
 var source = audioCtx.createMediaElementSource(song);
 source.connect(analyser);
@@ -159,7 +172,7 @@ document.addEventListener("click",function(e){
 	else if ("button" in e)  // IE, Opera 
 		wasRightClick = e.button == 2;
 
-	if( !~['IMG','BUTTON',"A"].indexOf(e.target.nodeName) && !wasRightClick)
+	if( !~['IMG','BUTTON',"A"].indexOf(e.target.nodeName) && !wasRightClick && e.target!=bradBon )
 		song.paused? song.play() : song.pause();
 });
 

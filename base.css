@@ -195,6 +195,9 @@ div[id^="a"] *{
 dd{
 	margin-left: 1.9em;
 }
+#bradBon:hover{
+	cursor: pointer;
+}
 #bradBon:before{
 	content: 'Bonjourno';
 }

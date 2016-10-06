@@ -9,18 +9,6 @@ for (var i = 0; i<pages.length; i++) {
 	document.querySelector('#navCon').appendChild(buttons[buttons.length-1]);
 	//makeCommentBox(i);
 }
-document.addEventListener('click',function(e){
-	if(e && e.target && ~buttons.indexOf(e.target)){
-		document.querySelector('.activePage').classList.remove('activePage');
-		document.querySelector('#p'+e.target.textContent).classList.add('activePage');
-		document.querySelector('#navCon .active').classList.remove('active');
-		e.target.classList.add('active');
-	}
-},false);
-
-
-pages[0].classList.add('activePage');
-buttons[0].classList.add('active');
 
 
 
@@ -77,11 +65,52 @@ function createComment(pageID, who, when, what){
 
 
 
+document.addEventListener('click',function(e){
+	if(e && e.target && ~buttons.indexOf(e.target)){
+		document.querySelector('.activePage').classList.remove('activePage');
+		document.querySelector('#p'+e.target.textContent).classList.add('activePage');
+		document.querySelector('#navCon .active').classList.remove('active');
+		e.target.classList.add('active');
+	}
+},false);
 
 
 
+document.body.addEventListener("keydown",function(e){
+	var key = e.which || e.keyCode || 0;
+
+	var currentPage = pages.indexOf(document.querySelector('.activePage'));
+
+	if( key===39 || key===68 ){// right
+		var nextIDX = (currentPage+1)%pages.length;
+		document.querySelector('.activePage').classList.remove('activePage');
+		pages[nextIDX].classList.add('activePage');
+		document.querySelector('#navCon .active').classList.remove('active');
+		buttons[nextIDX].focus();
+		buttons[nextIDX].blur();
+		buttons[nextIDX].classList.add('active');
+	}
+	else
+	if( key===37 || key===65 ){// left
+		var nextIDX = (currentPage+pages.length-1)%pages.length;
+		document.querySelector('.activePage').classList.remove('activePage');
+		pages[nextIDX].classList.add('activePage');
+		document.querySelector('#navCon .active').classList.remove('active');
+		buttons[nextIDX].focus();
+		buttons[nextIDX].blur();
+		buttons[nextIDX].classList.add('active');
+	}			
+	else
+	if( key===38 || key===87 ){// up
+	}else
+	if( key===40 || key===83 ){// down
+	}
+},false);
 
 
+
+pages[0].classList.add('activePage');
+buttons[0].classList.add('active');
 
 
 
@@ -165,20 +194,6 @@ freqDataArray = new Uint8Array(freqBins);
 analyser.getByteFrequencyData(freqDataArray);
 canvasResize();
 
-function draw() {
-	analyser.getByteFrequencyData(freqDataArray);
-	canvasCtx.clearRect(0, 0, cWidth, cHeight);
-	for( var i = 0; i<freqBins; i++ ){
-		var hue = i/freqBins * 192 + 128;
-		canvasCtx.fillStyle = 'hsl(' + hue + ', 100%, 50%)';
-
-		var barFillAmount = cHeight * freqDataArray[i] / 260;
-		canvasCtx.fillRect(i * barWidth, 0, barWidth, barFillAmount);
-	}
-	requestAnimationFrame(draw);
-};
-
-
 
 
 function canvasResize(){
@@ -186,9 +201,22 @@ function canvasResize(){
 	canvas.height = document.body.getBoundingClientRect().height;
 	cWidth = canvas.width;
 	cHeight = canvas.height;
-	barWidth = cWidth/freqBins;
+	barWidth = cWidth/(freqBins-4);
 }
 window.addEventListener("resize",canvasResize);
+
+function draw() {
+	analyser.getByteFrequencyData(freqDataArray);
+	canvasCtx.clearRect(0, 0, cWidth, cHeight);
+	for( var i=4; i<freqBins; i++ ){
+		var hue = i/freqBins * 192 + 128;
+		canvasCtx.fillStyle = 'hsl(' + hue + ', 100%, 50%)';
+
+		var barFillAmount = cHeight * freqDataArray[i] / 260;
+		canvasCtx.fillRect((i-4) * barWidth, 0, barWidth, barFillAmount);
+	}
+	requestAnimationFrame(draw);
+};
 
 setTimeout(function(){
 draw();
@@ -228,10 +256,10 @@ function enableAudio(songsList){
 	var song = new Audio(songsList[2]);
 	song.loop = true;
 	song.addEventListener('play',function(){
-		aPlayButt.innerHTML = '&#10074;&#10074;'; // ♪ &#9834; | ♫  &#9835;
+		aPlayButt.children[0].textContent = 'pause';
 	});
 	song.addEventListener('pause',function(){
-		aPlayButt.innerHTML = '&#9658;';
+		aPlayButt.children[0].textContent = 'play_arrow'; // ♪ &#9834; | ♫  &#9835;
 	});
 
 

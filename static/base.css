@@ -1,23 +1,24 @@
-html,body,div,section,button,input,p,br,img,a,h1,h2,h3,h4,h5,h6,hr,dl{
+html,body,div,section,button,input,textarea,form,p,br,img,a,h1,h2,h3,h4,h5,h6,hr,dl{
 	padding:0;
 	margin:0;
 	border:none;
 	outline:0 !important;
 	box-sizing:border-box !important;
-	font-family: inherit;
 	font-size:inherit;
+	font-family: inherit;
 	color:inherit;
+	text-shadow: inherit;
 	-webkit-font-smoothing:antialiased;
-}
-html,body,div,section,button,input{
-	display:flex;
 	flex-flow:column nowrap;
 	justify-content:center;
 	align-content:center;
 	align-items:center;
 	flex-shrink: 0;
+	overflow-x: hidden;
+}
+html,body,div,section,button,input,form{
+	display:flex;
 	text-align:center;
-	vertical-align:middle;
 	white-space:pre-line;
 }
 a,a:visited{
@@ -47,8 +48,13 @@ a,a:visited{
 	background-color: rgba(24,192,230,0.9);
 	box-shadow: inset 0 0 1vh rgba(250,250,250,0.5), inset 0 0 0.1vh 0.2vh rgba(99,220,240,0.8);
 }
+:focus {outline:none;}
+::-moz-focus-inner {border:0;}
 
 
+button{
+	border: 0.16em solid rgba(250,250,250,0.9);
+}
 html, body {
 	height: 100%;
 	width: 100%;
@@ -57,34 +63,50 @@ html, body {
 	background: rgb(9,9,9);
 }
 #umbrella{
+	z-index: 88;
 	width: 100%;
 	height: 100%;
+	text-shadow: 0 0 0.1em #222;
 }
 #navCon{
 	z-index: 9;
+	font-size: 2.4vh;
+	min-height: 6vh;
+	height: 3em;
 	width: 100%;
-	height: 6vh;
 	flex-flow: row nowrap;
-	font-size: 2vh;
+	align-items: flex-end;
+	padding: 0 0.4em 0.1em;
+	color: #ddd;
 	background: rgba(56,172,255,0.3);
 	background: linear-gradient(to bottom, rgba(56,172,255,0.3) 0%, rgba(56,172,255,0.6) 96%);
-	border-bottom: 0.2vh solid rgba(56,192,255,0.7);
+/*	border-bottom: 0.2vh solid rgba(56,192,255,0.7);*/
 }
 #navCon>button{
-	width: 4.5vh;
-	height: 4.5vh;
-	margin: 0.4vh 0.6vh;
-	color: #ddd;
+	height: 2.1em;
+	width: 2.1em;
+	max-height: 100%;
+	max-width: 100%;
+	margin: 0 0.3em;
+	background: rgba(92,64,255,0.9);
+/*	border: 0.16em solid rgba(250,250,250,0.9);*/
 	border-radius: 48%;
-	background: linear-gradient(to bottom, rgba(9,144,220,0.9) 0%, rgba(96,9,220,0.9) 100%);
-	box-shadow: inset 0 0 0 0.2vh rgba(40,40,50,0.7), 0 0.2vh 0.3vh 0 rgba(0,0,0,0.6);
-}#navCon>button:hover,#navCon>button:focus,#navCon>.active{
+}#navCon>button:hover,#navCon>.activeButt{
+	font-size: 123%;
+	font-weight: bold;
+	border-color: gold;
 	color: rgb(240,215,9);
-	box-shadow: inset 0 0 0 0.1vh rgb(240,215,9), 0 0 0 0.2vh rgb(240,215,9), 0 0 0.1vh 0.3vh rgba(240,215,9,0.4);
-}#navCon>button:active{
+}#navCon>button:hover{
+	box-shadow: 0 0 0 0.2vh rgb(240,215,9), 0 0 0.1vh 0.3vh rgba(240,215,9,0.4);
+}
+#navCon>.activeButt:hover{
+	box-shadow: none;
+}
+#navCon>button:active{
+	font-size: 117%;
 	color: rgb(250,220,36);
-	background: linear-gradient(to bottom, rgba(9,128,192,0.9) 0%, rgba(96,9,210,0.9) 90%);
-	box-shadow: inset 0 0 0 0.1vh rgb(240,215,9), 0 0 0 0.2vh rgb(240,215,9);
+	background: rgba(56,24,192,1);
+	box-shadow: none;
 }
 /*#scrollNav{
 	width:100%;
@@ -107,24 +129,26 @@ html, body {
 
 #pageCon{
 	z-index: 8;
+	font-size: 1.6vh;
 	width: 100%;
-	height: 94vh;
+	height: 100%;
+	max-height: 96%;
+	flex-shrink: 1;
 	overflow-x: hidden;
 	overflow-y: auto;
 	justify-content: flex-start;
 }
 
-#pageCon>*{
-	width: 75%;
-	min-height: 67vh;
-	height: intrinsic;
+.aPage{
+	min-height: 73vh;
+/*		min-height: min-intrinsic;
 	height: -moz-max-content;
-	height: min-content;
-	margin-bottom: 1vh;
+	height: min-content;*/
+	width: 75%;
 	padding: 1.4vh 0;
+	margin-bottom: 4vh;
 	justify-content: flex-start;
 	display: none;
-	font-size: 1.6vh;
 	color: rgb(220,232,228);
 	background: rgba(0,0,0,0.7);
 	background: linear-gradient(to bottom, rgba(0,24,56,0.5) 4vh, rgba(0,4,9,0.9) 13vh);
@@ -132,18 +156,13 @@ html, body {
 	border-top-width: 0;
 	border-radius: 0 0 1vh 1vh;
 
-}@media (max-aspect-ratio:8/9) {
-	#pageCon>*{
-		width: 100%;
-		font-size: 2vh;
-	}
 }
 #pageCon .activePage{
 	display: flex;
 }
 
 
-#pageCon>div>div{
+.aPage>div{
 	width: 96%;
 	padding-bottom: 1em;
 }
@@ -156,16 +175,19 @@ html, body {
 	font-size: 45%;
 	color: #ddd;
 }
+.pageHead a{
+	font-weight: bold;
+}
 .pageHead a:before{
 	content: 'Assignment ';
 }
 .pageMeat{
+	margin-bottom: 1em;
 	justify-content: space-around;
 	font-size: 100%;
-	text-shadow: 0 0 0.1em #000;
 }
 .pageMeat>section{
-	min-width: 100%;
+	width: 100%;
 	margin: 1.6em 0;
 	text-align: left;
 	align-items: flex-start;
@@ -180,10 +202,11 @@ html, body {
 
 
 
-section>p:first-child{
+.pageMeat section>p:first-child{
 	font-size: 120%;
 	font-weight: bold;
 	color: rgb(233,245,240);
+	white-space: nowrap;
 }
 
 
@@ -192,6 +215,10 @@ dd{
 }
 
 
+section p {
+	max-height: 100%;
+	max-width: 100%;
+}
 
 #p1 section:first-child>p:first-child{
 	margin-bottom: 0.4em;
@@ -228,52 +255,63 @@ dd{
 
 
 
-
-
 hr{
-	height: 0.1vh;
 	min-height: 1px;
+	height: 0.1vh;
 	width: 100%;
 	background: rgba(240,242,242,0.8);
 }
+
+/* comment styles ___________________________________________________________________________*/
+
 #pageCon .commentBox{
 	margin-top: auto;
 	min-height: 13vh;
-	padding-bottom: 0;
-	margin-bottom: 1vh;
+	margin-bottom: 2vh;
+	padding: 1% 0% 0;
 	align-items: flex-start;
-	justify-content: space-between;
+	justify-content: space-between;;
+	color: #eee;
+	background: rgba(92,192,180,0.9);
+/*	border: 0.4vh solid rgba(42,113,145,0.9);*/
+	box-shadow: 0 0 0 0.3vh rgba(42,113,145,0.9);
+	border-radius: 0.8vh;
+}
+
+.commentBox > *{
+	padding-left: 2%;
+	padding-right: 3%;
 }
 
 .commentBox>h4{
-	margin-left: 0.5em;
-	font-size: 128%;
-	color: rgba(250,253,254,0.96)
+	font-size: 133%
 }
+
+
 .commentsCon{
-	flex-grow: 2;
 	width: 100%;
-	background: rgba(205,210,210,0.96);
-	border: 0.24vh solid rgba(220,225,228,0.9);
-	border-radius: 0.6vh;
-	padding: 0.4em 0.9em;
-	color: #222;
+	flex-grow: 2;
+	align-items: flex-start;
+	margin: 0.5em 2% 0.7em;
 }
 .commentsCon:empty:before{
-	content:'none yet :(';
+	content:'none yet  \2639';
 }
+
 .aComment{
 	width: 100%;
+	margin-bottom: 1.2em;
 	align-items: flex-start;
-	margin-top: 0.5em;
-	margin-bottom: 1em;
-	margin-left: 0.3em;
 }
 .aComment>*{
-	height: 100%;
 	min-height: 1em;
-	max-width: 90%;
-	flex-flow: row nowrap;
+	height: 100%;
+	width: 99%;
+	max-width: 100%;
+	flex-flow: row wrap;
+}.aComment *{
+	justify-content: flex-start;
+	text-align: left;
 }
 .commentMeta{
 	flex-grow: 2;
@@ -281,34 +319,110 @@ hr{
 	align-items: baseline;
 }
 .commentWho{
-	font-size: 109%;
-	margin-right: 1em;
+	margin-right: 0.5em;
+	font-size: 113%;
 }
 .commentWhen{
+	font-size: 80%;
 	opacity: 0.9;
 }
-.commentMeat{
-	flex-grow: 7;
-	white-space: normal;
-	text-align: left;
-	color: #333;
+.commentWhen:hover{
+	opacity: 1;
 }
+.commentMeat{
+	padding-left: 1%;
+	color: #222;
+	text-shadow: none;
+	white-space: pre-wrap;
+	word-break: break-all;
 
-
-
-
+}
 
 
 .addComment{
+	height: auto;
 	width: 100%;
-	margin-top: 0.2em;
-	align-items: flex-end;
+	padding: 1em 0;
+	flex-flow: row wrap;
+	align-items: baseline;
+	position: relative;
+}
+.addComment>*{
+	padding-left: 2%;
+	padding-right: 2%;
+	width: 100%;
+}
+.overlay{
+	position: absolute;
+	padding: 0;
+	top: 0; right: 0; bottom: 0; left: 0;
+	background: #111;
+	opacity: 0.97;
+}.overlay *{
+	display: flex;
+	height: 100%;
+	width: 100%;
+	white-space: pre-line;
+}
+.textBox,
+.textBox *{
+	display: block;
+	text-align: left;
+	margin-top: 0.08em;
+}.textBox{
+	min-height: 3em;
+	width: 100%;
+	border-radius: 0.5vh;
+	border: 0.3vh solid rgba(0,0,0,0.1);
+	background: #fff;
+	padding: 0.3em 0.5em 0.4em;
+	color: #000;
+	text-shadow: none;
+}
+.textBox:hover, .textBox:focus{
+	border-color: rgba(36,192,220,0.9);
+}
+.textBox:empty:before{
+	content: 'enter new comment...';
+	font-size: 92%;
+}
+.addComControls{
+	min-height: 3em;
+	margin-top: 0.4em;
+	flex-flow: row nowrap;
+	align-items: baseline;
 }
 .addCommentButt{
-	color: #333;
+	margin-right: 1%;
 	padding: 0.3em;
-	border-radius: 0.4em;
+	border-width: 0.25em;
+	border-radius: 0.5em;
+	color: #eee;
+	background: rgba(38,110,144,0.9);
 }
+.addCommentButt:hover{
+	color: #fff;
+	background: rgba(28,99,140,1);
+}
+.zUser{
+	flex-flow: row nowrap;
+	margin-right: 1%;
+	margin-left: auto;
+	align-items: baseline;
+	font-size: 120%;
+	color: rgba(225,215,0,1);
+	white-space: pre-wrap;
+}
+/*.zUser:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+.zUser:hover:before{
+	content: '\2b10';
+}*/
+
+
+
 
 
 
@@ -325,39 +439,64 @@ hr{
 	position: absolute;
 	left: 0;
 	bottom: 0;
+	font-size: 2.2vh;
 	width: auto;
 	height: auto;
 	border-top-right-radius: 1em;
 	background: rgba(230,255,255,0.2);
 	flex-flow: row nowrap;
 	justify-content: space-around;
-	font-size: 2vh;
 	padding: 0.3em 0.4em 0.3em 0.2em;
 	color: #fff;
 }#aCon:hover{
 	background: rgba(128,220,220,0.5);
 }
+#aCon *{
+	font-size: inherit;
+}
 #aCon>button{
 	margin-left: 0.4em;
 	height: 2em;
 	width: 2.1em;
-/*	padding: 0.2em 0.6em 0.3em;*/
 	background: rgb(58,38,128);
-	border: 0.16em solid rgba(250,250,250,0.9);
+/*	border: 0.16em solid rgba(250,250,250,0.9);*/
 	border-radius: 42%;
 	opacity: 0.5;
 }#aCon>button:hover{
 	opacity: 1;
 }#aCon>button:active{
+	font-size: 92%;
 	background: rgb(36,20,96);
+	border-color: gold;
 	color: gold;
 }
 
 
 
 
+
+
+@media (max-aspect-ratio:3/4), (max-width: 727px) {
+	#navCon{
+		font-size: 3.2vh;
+	}
+	.aPage{
+		width: 100%;
+		font-size: 2vh;
+		border-left-width: 0;
+		border-right-width: 0;
+		margin-bottom: 7vh;
+	}
+	#aCon{
+		font-size: 3.6vh;
+	}
+}
+
+
+
+
 #canvas{
-	z-index: 2;
+	z-index: 1;
 	position: absolute;
 	left: 0;
 	top: 0;

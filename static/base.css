@@ -1,9 +1,14 @@
+/* Global | Normalize Stuff */
 html,body,div,section,button,input,textarea,form,p,br,img,a,h1,h2,h3,h4,h5,h6,hr,dl{
+	max-width: 100%;
 	padding:0;
 	margin:0;
 	border:none;
-	outline:0 !important;
+	outline:0;
 	box-sizing:border-box !important;
+	background-clip: padding-box!important;
+	overflow: hidden;
+/*	position: relative;*/
 	font-size:inherit;
 	font-family: inherit;
 	color:inherit;
@@ -14,7 +19,6 @@ html,body,div,section,button,input,textarea,form,p,br,img,a,h1,h2,h3,h4,h5,h6,hr
 	align-content:center;
 	align-items:center;
 	flex-shrink: 0;
-	overflow-x: hidden;
 }
 html,body,div,section,button,input,form{
 	display:flex;
@@ -30,6 +34,17 @@ a,a:visited{
 }button:hover,button:active, a:hover,a:active{
 	cursor:pointer;
 }
+:disabled{
+	cursor: not-allowed !important;
+}/*
+:focus::-webkit-input-placeholder{ 
+	opacity: 0;
+}:focus::-moz-placeholder{
+	opacity: 0;
+}*/
+:focus {outline:0;}
+::-moz-focus-inner {border:0;}
+
 ::-webkit-scrollbar {
 	width: 1.5vh;
 	box-shadow: inset 0 0 1vh rgba(0,0,0,0.3);
@@ -48,10 +63,24 @@ a,a:visited{
 	background-color: rgba(24,192,230,0.9);
 	box-shadow: inset 0 0 1vh rgba(250,250,250,0.5), inset 0 0 0.1vh 0.2vh rgba(99,220,240,0.8);
 }
-:focus {outline:none;}
-::-moz-focus-inner {border:0;}
 
 
+
+
+
+
+#div[id^='google-cache']{
+	position: absolute;
+	z-index: 89;
+	opacity: 0.8;
+	width: 100%;
+}
+
+
+hr{
+	min-height: 1px;
+	width: 100%;
+}
 button{
 	border: 0.16em solid rgba(250,250,250,0.9);
 }
@@ -62,14 +91,14 @@ html, body {
 	overflow: hidden !important;
 	background: rgb(9,9,9);
 }
+
 #umbrella{
-	z-index: 88;
 	width: 100%;
 	height: 100%;
+	justify-content: flex-start;
 	text-shadow: 0 0 0.1em #222;
 }
 #navCon{
-	z-index: 9;
 	font-size: 2.4vh;
 	min-height: 6vh;
 	height: 3em;
@@ -91,7 +120,7 @@ html, body {
 	background: rgba(92,64,255,0.9);
 /*	border: 0.16em solid rgba(250,250,250,0.9);*/
 	border-radius: 48%;
-}#navCon>button:hover,#navCon>.activeButt{
+}#navCon>button:hover,#navCon>.activePage{
 	font-size: 123%;
 	font-weight: bold;
 	border-color: gold;
@@ -99,7 +128,7 @@ html, body {
 }#navCon>button:hover{
 	box-shadow: 0 0 0 0.2vh rgb(240,215,9), 0 0 0.1vh 0.3vh rgba(240,215,9,0.4);
 }
-#navCon>.activeButt:hover{
+#navCon>.activePage:hover{
 	box-shadow: none;
 }
 #navCon>button:active{
@@ -128,7 +157,6 @@ html, body {
 }*/
 
 #pageCon{
-	z-index: 8;
 	font-size: 1.6vh;
 	width: 100%;
 	height: 100%;
@@ -140,8 +168,8 @@ html, body {
 }
 
 .aPage{
-	min-height: 73vh;
-/*		min-height: min-intrinsic;
+/*	min-height: 74vh;
+	min-height: min-intrinsic;
 	height: -moz-max-content;
 	height: min-content;*/
 	width: 75%;
@@ -149,9 +177,9 @@ html, body {
 	margin-bottom: 4vh;
 	justify-content: flex-start;
 	display: none;
-	color: rgb(220,232,228);
-	background: rgba(0,0,0,0.7);
+	color: rgb(215,215,215);
 	background: linear-gradient(to bottom, rgba(0,24,56,0.5) 4vh, rgba(0,4,9,0.9) 13vh);
+	background: rgba(36,36,34,0.7);
 	border: 0.2vh solid rgba(230,255,255, 0.2);
 	border-top-width: 0;
 	border-radius: 0 0 1vh 1vh;
@@ -169,22 +197,22 @@ html, body {
 .pageHead{
 	margin-bottom: 2vh;
 	border-bottom: 0.2vh solid rgba(250,250,250,0.6);
-	font-size: 210%;
 }
-.pageHead>p:last-child{
-	font-size: 45%;
-	color: #ddd;
-}
-.pageHead a{
-	font-weight: bold;
+.pageHead p{
+	font-size: 248%;
+	font-weight: 600;
 }
 .pageHead a:before{
-	content: 'Assignment ';
+	content: 'Week ';
+}
+.pageHead>p:last-child{
+	font-size: 100%;
+	color: #ddd;
 }
 .pageMeat{
 	margin-bottom: 1em;
 	justify-content: space-around;
-	font-size: 100%;
+	font-size: 111%;
 }
 .pageMeat>section{
 	width: 100%;
@@ -192,8 +220,70 @@ html, body {
 	text-align: left;
 	align-items: flex-start;
 }
+
+
+
+section>*{
+	padding-left: 0.3em;
+}
+.pageMeat section>p:first-child{
+	font-size: 140%;
+	font-weight: bold;
+	padding-left: 0;
+	padding-bottom: 0.3em;
+	color: rgb(236,236,236);
+}
+
+.pageMeat section p {
+	max-height: 100%;
+	max-width: 100%;
+	max-width: calc(100vh);
+}
+
+.pageMeat section div {
+	width: 100%;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	margin-top: 0.6em;
+	padding: 0.8em;
+	background: #222;
+}
+.pageMeat section img {
+	width: 56%;
+	padding: 0;
+}
+.pageMeat section div p {
+	width: 44%;
+	padding-left: 0.6em;
+}
+section p br{
+	line-height: 200%;
+}
+
+
+@media (max-aspect-ratio:8/9), (max-width: 727px) {
+	section p br{
+		line-height: 111%;
+	}
+	.pageMeat section div {
+		flex-flow: column nowrap;
+	}
+	.pageMeat section img {
+		width: 99%;
+		margin-bottom: 0.3em;
+	}
+	.pageMeat section div p {
+		width: 99%;
+		padding: 0;
+	}
+}
+
+
+
+
+
 .pageMeat .small{
-	font-size: 65%;
+	font-size: 77%;
 }
 .pageMeat .black{
 	color: rgba(0,0,0,0);
@@ -202,27 +292,40 @@ html, body {
 
 
 
-.pageMeat section>p:first-child{
-	font-size: 120%;
-	font-weight: bold;
-	color: rgb(233,245,240);
-	white-space: nowrap;
+
+.pageMeat img {
+	cursor: zoom-in;
+	object-fit: contain;
+}.pageMeat img:hover {
+	outline: 0.3vh solid rgba(255,215,55,0.4);
+}
+.enlargePic{
+	cursor: zoom-out;
+	object-fit: contain;
+	outline: none!important;
+	z-index: 222;
+	position: absolute;
+
+	max-width: 100vw;
+	max-height: 100vh;
+
+
+	background: rgba(0,0,0,0.9);
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+
 }
 
 
+/*#p1 section:first-child>p:first-child{
+	margin-bottom: 0.4em;
+}*/
 dd{
 	margin-left: 1.9em;
 }
 
-
-section p {
-	max-height: 100%;
-	max-width: 100%;
-}
-
-#p1 section:first-child>p:first-child{
-	margin-bottom: 0.4em;
-}
 #bradBon:hover{
 	cursor: pointer;
 }
@@ -232,18 +335,12 @@ section p {
 #bradBon:hover:before{
 	content: 'Bawnjorno';
 }
-.ratioPic{
-	width: 100%;
-	border: 0.24vh solid rgba(255,215,55,0.4);
-	margin-top: 1em;
-}
 /*
 #a2{
 }
 #a3{}
 #a4{}
 #a5{}
-#a6{}
 #a7{}
 #a8{}
 #a9{}
@@ -254,13 +351,24 @@ section p {
 
 
 
-
-hr{
-	min-height: 1px;
-	height: 0.1vh;
-	width: 100%;
-	background: rgba(240,242,242,0.8);
+#p6 section div p br{
+	line-height: 100%;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* comment styles ___________________________________________________________________________*/
 
@@ -283,8 +391,8 @@ hr{
 	padding-right: 3%;
 }
 
-.commentBox>h4{
-	font-size: 133%
+.commentBox>h2{
+	font-size: 160%
 }
 
 
@@ -292,10 +400,13 @@ hr{
 	width: 100%;
 	flex-grow: 2;
 	align-items: flex-start;
-	margin: 0.5em 2% 0.7em;
+	margin: 0.5em 2% 0.9em;
 }
 .commentsCon:empty:before{
-	content:'none yet  \2639';
+	content:'none yet \00a0 \2639';
+	font-size: 130%;
+	align-self: center;
+	margin: 0.4em 0;
 }
 
 .aComment{
@@ -303,6 +414,7 @@ hr{
 	margin-bottom: 1.2em;
 	align-items: flex-start;
 }
+
 .aComment>*{
 	min-height: 1em;
 	height: 100%;
@@ -324,7 +436,7 @@ hr{
 }
 .commentWhen{
 	font-size: 80%;
-	opacity: 0.9;
+	opacity: 0.8;
 }
 .commentWhen:hover{
 	opacity: 1;
@@ -338,18 +450,29 @@ hr{
 
 }
 
+.newComment{
+	animation: showtime 1.5s ease-out;
+}
+@keyframes showtime{
+	0% {
+		opacity: 0;
+	}
+	75% {
+		opacity: 1;
+	}
+}
 
 .addComment{
+	border-top: 0.3vh solid rgba(1,1,1,0.3);
 	height: auto;
 	width: 100%;
-	padding: 1em 0;
-	flex-flow: row wrap;
-	align-items: baseline;
+	padding: 0.8em 0 1em;
 	position: relative;
 }
 .addComment>*{
 	padding-left: 2%;
 	padding-right: 2%;
+	padding-bottom: 1%;
 	width: 100%;
 }
 .overlay{
@@ -358,12 +481,32 @@ hr{
 	top: 0; right: 0; bottom: 0; left: 0;
 	background: #111;
 	opacity: 0.97;
+	z-index: 15;
 }.overlay *{
 	display: flex;
 	height: 100%;
 	width: 100%;
 	white-space: pre-line;
 }
+
+.userArea{
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	align-items: baseline;
+	white-space: pre-wrap;
+}
+.zUser{
+	font-size: 120%;
+	color: rgba(220,210,0,1);
+}
+.zUser:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+/*.zUser:hover:before{
+	content: '\2b10';
+}*/
+
 .textBox,
 .textBox *{
 	display: block;
@@ -373,7 +516,7 @@ hr{
 	min-height: 3em;
 	width: 100%;
 	border-radius: 0.5vh;
-	border: 0.3vh solid rgba(0,0,0,0.1);
+	border: 0.34vh solid rgba(0,0,0,0.1);
 	background: #fff;
 	padding: 0.3em 0.5em 0.4em;
 	color: #000;
@@ -386,13 +529,25 @@ hr{
 	content: 'enter new comment...';
 	font-size: 92%;
 }
+.textBox:empty{
+	color: rgba(0,0,0,0.6);
+}
+
 .addComControls{
 	min-height: 3em;
-	margin-top: 0.4em;
 	flex-flow: row nowrap;
-	align-items: baseline;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+.addComStatus{
+	flex-grow: 2;
+	justify-content: flex-start;
+	font-size: 95%;
+	color: rgb(230,40,40);
+	text-shadow: none;
 }
 .addCommentButt{
+	margin-left: auto;
 	margin-right: 1%;
 	padding: 0.3em;
 	border-width: 0.25em;
@@ -404,30 +559,156 @@ hr{
 	color: #fff;
 	background: rgba(28,99,140,1);
 }
-.zUser{
+
+
+.borderRed{
+	border-color: rgb(210,50,50)!important;
+}
+
+
+
+
+
+
+#uBoxCon{
+	display: none;
+	z-index: 96;
+	position: absolute;
+	top:0; bottom:0; left:0; right:0;
+	background: rgba(0,0,0,0.8);
+}
+#uBox{
+	min-height: 44vh;
+	height: auto;
+	max-height: 70vh;
+	width: auto;
+	max-width: 95vw;
+	margin-bottom: 23%;
+	font-size: 110%;
+	text-shadow: none;
+	white-space: pre-line;
+	background: rgba(250,250,250,1);
+	border-radius: 0.5em;
+	border: 0.2em solid rgba(0,0,0,0);
+	box-sizing: content-box!important;
+	justify-content: space-between;
+}
+#uBox>*{
+	width: 100%;
+	padding: 1em 1.4em;
+}
+#uBoxTop{
+	flex-flow: row wrap;
+	justify-content: space-between;
+	padding-bottom: 0.1em;
+}
+#uBoxTop p{
+	color: rgba(180,144,0,1);
+	padding-right: 1em;
+}
+#uBoxTop p:before{
+	content: 'Signed\00a0in\0000a0as:\00a0\0020';
+	color: #000;
+	opacity: 0.9;
+}
+#buttSignOut{align-self: flex-end;}
+#uBox hr{
+	margin-top: 0.3em;
+	background: rgba(0,0,0,0.4);
+}
+
+#uOptions{
+	flex-grow: 2;
+	flex-flow: column nowrap;
+	justify-content: flex-start;
+	padding-bottom: 3em;
+}
+#uOptions>*{
+	flex-flow: row wrap;
+	min-width: 100%;
+	padding-bottom: 0.8em;
+}
+#uOptions>h4{
+	font-size: 115%;
+	font-weight: 600;
+}
+
+.anOption {
 	flex-flow: row nowrap;
-	margin-right: 1%;
-	margin-left: auto;
-	align-items: baseline;
+}
+.anOption p{
+	padding-top: 1px;
+	padding-right: 0.6em;
+}
+.anOption input{
+	font-size: 96%;
+	height: 100%;
+	flex-grow: 2;
+	background: rgba(0,0,0,0);
+	border: 0.16em solid #ccc;
+	border-radius: 0.4em;
+	padding: 0.2em 0.1em;
+}
+.anOption input:placeholder-shown {
+	background: #ccc;
+	color: #222;
+}
+.anOption input:hover,.anOption input:focus{
+	background: #fff;
+}
+.anOption input:focus{
+	border-color: rgba(26,192,220,1);
+}
+
+
+#uControls{
+	padding-top: 0.5em;
+	justify-content: flex-end;
+}
+#uControls *{
+	margin-right: 0.4em;
+}
+
+
+
+#uBoxTop button,#uOptions button{
+	height: 2.2em;
+	padding: 0 1em;
+	border-radius: 0.5em;
+	border-width: 0.2em;
+	border-color: rgba(0,0,0,0.7);
+}
+#uBoxTop button:hover,#uOptions button:enabled:hover{
+	background: rgba(250,250,250,1);
+	border-color: rgba(0,0,0,1);
+}
+#uControls button:disabled{
+	opacity: 0.4;
+}
+
+
+#uOptionStatus{
+	color: red;
+}
+
+#uBoxCloseButt{
 	font-size: 120%;
-	color: rgba(225,215,0,1);
-	white-space: pre-wrap;
+	font-weight: 600;
+	height: 2.4em;
+	width: 100%;
+	border: 0 solid rgba(0,0,0,1);
+	border-top-width: 0.2vh;
+	padding: 0;
 }
-/*.zUser:hover{
-	text-decoration: underline;
-	cursor: pointer;
+#uBoxCloseButt:hover{
+	background: #444;
+	color: #fff;
 }
-.zUser:hover:before{
-	content: '\2b10';
-}*/
 
-
-
-
-
-
-
-
+#uProfileLink{
+	font-size: 92%;
+	font-family: Arial,sans-serif;
+}
 
 
 
@@ -441,6 +722,7 @@ hr{
 	bottom: 0;
 	font-size: 2.2vh;
 	width: auto;
+	max-width: 100vw;
 	height: auto;
 	border-top-right-radius: 1em;
 	background: rgba(230,255,255,0.2);
@@ -496,7 +778,7 @@ hr{
 
 
 #canvas{
-	z-index: 1;
+	z-index: -9;
 	position: absolute;
 	left: 0;
 	top: 0;

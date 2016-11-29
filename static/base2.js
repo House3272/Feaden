@@ -10,6 +10,8 @@ for (var i = 0; i<pages.length; i++) {
 	var newButt = document.createElement("BUTTON");
 	newButt.id = pages[i].id+'butt';
 	newButt.textContent = pages[i].id.slice(1);
+	if( i===0 )
+		newButt.classList.add('activePage');
 	document.querySelector('#navCon').appendChild(newButt);
 	buttons[buttons.length] = newButt;
 	//makeCommentBox(i);
@@ -26,11 +28,32 @@ const umbrella = document.querySelector('#umbrella');
 setTimeout(function(){
 	document.querySelector('#navCon').addEventListener('click',function(e){
 		if(e && e.target && ~buttons.indexOf(e.target)){
-			switchPage(parseInt(e.target.textContent));
+
+			if( e.target.classList.contains('activePage') )
+				return;
+
+			var pgNumber = parseInt(e.target.textContent);
+
+			//regular click = switch page
+			if( !e.ctrlKey && !e.shiftKey ){
+				switchPage(pgNumber);
+				return;
+			}
+
+			//control or shift + click = add page
+			var targetPg = document.querySelector('#p'+pgNumber);
+			if( !targetPg.classList.contains('activePage') ){
+				targetPg.classList.add('activePage');
+				e.target.classList.add('activePage');
+			}
+
 		}
 	},false);
 },0);
 
+function hidePageORButton(p){
+	p.classList.remove('activePage');
+}
 
 function switchPage(page){
 	if( typeof page ==='number' ){
@@ -41,19 +64,11 @@ function switchPage(page){
 		if( !newButt || !newPage )
 			return;
 
-		// hide old
-		var actiButt = document.querySelector('.activeButt');
-		if( actiButt )
-			actiButt.classList.remove('activeButt');
-		var actiPage = document.querySelector('.activePage');
-		if( actiPage ){
-			if( actiPage.id.slice(1) === page )
-				return; //same as current page
-			actiPage.classList.remove('activePage');
-		}
+		var activeElems = Array.from(document.querySelectorAll('#umbrella .activePage'));
+		activeElems.forEach(hidePageORButton);
 
 		// enlarge button, show page
-		newButt.classList.add('activeButt');
+		newButt.classList.add('activePage');
 		newPage.classList.add('activePage');
 		if( !newPage.zLoaded ){
 			updateComments(page);
@@ -160,13 +175,14 @@ function pageLR(direction){
 
 
 // go to certain page if specified
-// else go to page 1
 setTimeout(function(){
+
 	var hash = window.location.hash;
-	if( !hash || hash.length<2 || !/^#\d+$/.test(hash) ){
-		history.replaceState("", document.title, window.location.pathname + window.location.search);
-		switchPage(1);
-	}else{
+	
+	if( !hash || hash.length<1 )
+		return;
+
+	if( hash.length>=2 && /^#\d+$/.test(hash) ){
 		hash = parseInt(hash.slice(1));
 		if( hash < 1 ){
 			hash = 1;
@@ -174,9 +190,10 @@ setTimeout(function(){
 		if( hash > pages.length ){
 			hash = pages.length;
 		}
-
 		switchPage(hash);
 	}
+	else
+		history.replaceState("", document.title, window.location.pathname + window.location.search);
 },1);
 
 
@@ -187,8 +204,15 @@ setTimeout(function(){
 
 
 
+// setTimeout(function(){
 
+// var myLazyLoad = new LazyLoad({
+// 	container: document.getElementById('pageCon'),
+// 	data_src:'org',
+// 	threshold: 100
+// });
 
+// },99);
 
 
 
@@ -248,6 +272,7 @@ setTimeout(function(){
 	});
 
 },1);
+
 
 
 
